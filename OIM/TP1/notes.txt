@@ -1,0 +1,1 @@
+1/ fs : frequece d'echantillonage, q : quatification, sigal : donnée, options : informations relatif
