@@ -1,1 +1,7 @@
 1/ fs : frequece d'echantillonage, q : quatification, sigal : donnée, options : informations relatif
+
+2/ nombre d'échantillon
+ 
+3/ max = 0.83514 et min = -0.68063
+
+4/ 1.98
