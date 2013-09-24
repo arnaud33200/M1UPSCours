@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0055)file:///D:/IRIT/Doc/Cours/M1_IM/OIM/TP/TP2/OIM_TP2.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>TP2</title>
+</head>
+
+<body>
+
+<h1 style="text-align: left;">TP2 : Manipulations du média "image"</h1>
+Ce TP a pour but de manipuler des images en couleur et niveaux de gris par de la porgrammation simple.<br>
+Ce TP sera réalisé sous Matlab (éventuellement sous Octave ou Python) en
+ essayant de se rapprocher le plus possible d'une programmation C. <br>
+En effet, Matlab sera utilisé uniquement pour nous simplifier le chargement et la visualisation des images !
+
+<h2>I. Manipulation des composantes RGB (Red Green Blue)</h2>
+
+<h3>I.1. Affichage des composantes</h3>
+
+I.1.1 Sauvegarder l'image ci-dessous sur le disque dur de votre machine 
+en cliquant avec le bouton droite de votre souris sur celle-ci.<br><br>
+<img src="OIM_TP2_fichiers/TP2_1.jpg" alt="" style="width: 600px; height: 400px;"> <br><br>
+
+I.1.2 Lancer Matlab. Charger l'image en mémoire et l'afficher à l'aide de la séquence d'instructions suivantes :<br>
+<font face="Helvetica, Arial, sans-serif">
+img = imread('TP2_1.jpg');<br>
+image(img);</font><br><br>
+
+I.1.3 Afficher les dimensions de l'image à l'aide de la commande : <font face="Helvetica, Arial, sans-serif">taille = size(img)</font><br>
+
+Vous obtenez : <font face="Helvetica, Arial, sans-serif">400 &nbsp;
+&nbsp; &nbsp;600 &nbsp; &nbsp; &nbsp; 3</font><br>
+A quoi correspondent ces valeurs ? Et pourquoi le type de l'image est <font face="Helvetica, Arial, sans-serif">uint8</font> ?
+<br><br>
+
+<table cellpadding="2" cellspacing="2" width="100%">
+  <tbody>
+    <tr>
+      <td valign="top"><div align="center"><img src="OIM_TP2_fichiers/TP2_2.jpg" alt="" style="width: 234px; height: 180px;"><br></div></td>
+      <td valign="middle">I.1.4 Construire l'image en intensité de la composante bleue uniquement. Pour cela :
+<ul><li>créer une image <font face="Helvetica, Arial, sans-serif">img_bleue</font> en <font face="Helvetica, Arial, sans-serif">uint8</font> de la même taille que <font face="Helvetica, Arial, sans-serif">img</font> et contenant que des 0,</li>
+<li>copier les valeurs de la composante bleue de <font face="Helvetica, Arial, sans-serif">img</font> dans <font face="Helvetica, Arial, sans-serif">img_bleue</font>,</li>
+<li>afficher l'image : que remarquez-vous ?</li></ul>
+
+I.1.5 Construire de même l'image de la composante verte et l'image de la
+ composante rouge. Pour afficher plusieurs images, utiliser <font face="Helvetica, Arial, sans-serif">figure</font>.<br> 
+Commenter l'évolution de l'intensité des pixels correspondant à la carrosserie de la voiture.<br></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h3>I.2. Filtrage en fonction des composantes</h3>
+
+I.2.1 Construire l'image filtrée où ne sont retenus que les pixels dont l'intensité en bleu est supérieure à un seuil donné  :<br>
+
+<font face="Helvetica, Arial, sans-serif">
+seuil = 200;<br>
+imgf = uint8(zeros(s));<br>
+for x=1:taille(1)<br>
+&nbsp; &nbsp; for y=1:taille(2)<br>
+&nbsp; &nbsp; &nbsp; &nbsp; if img(x,y,3) &gt; seuil<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; imgf(x,y,1) = img(x,y,1);<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; imgf(x,y,2) = img(x,y,2);<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; imgf(x,y,3) = img(x,y,3);<br>
+&nbsp; &nbsp; &nbsp; &nbsp; end<br>
+&nbsp; &nbsp; end<br>
+end</font><br>
+
+<br>
+<table cellpadding="2" cellspacing="2" width="100%">
+  <tbody>
+    <tr>
+      <td valign="top"><img src="OIM_TP2_fichiers/TP2_3.jpg" alt="" style="width: 232px; height: 180px;"> <br>
+      </td>
+      <td align="justify" valign="middle">I.2.2 Donner une valeur de la variable seuil qui permet d'obtenir la carrosserie complète de
+la voiture tout en éliminant un maximum des autres pixels de l'image.<br>
+Identifier les principales zones ayant été retenues
+après filtrage et expliquer la raison de leur présence à l'image.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+
+<table cellpadding="2" cellspacing="2" width="100%">
+  <tbody>
+    <tr>
+      <td valign="top"><img src="OIM_TP2_fichiers/TP2_4.jpg" alt="" style="width: 233px; height: 180px;"> <br>
+      </td>
+      <td valign="middle">I.2.3 Sur le même principe, proposer un seuillage sur la composante rouge pour essayer de conserver
+l'intégralité de la carrosserie de la voiture tout en éliminant un maximum de pixels. Produire le même type
+d'analyse que pour le résultat précédent.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+
+<table cellpadding="2" cellspacing="2" width="100%">
+  <tbody>
+    <tr>
+      <td valign="top"><img src="OIM_TP2_fichiers/TP2_5.jpg" alt="" style="width: 235px; height: 180px;"> <br>
+      </td>
+      <td valign="middle">I.2.4 Proposer une combinaison des deux
+seuils précédents (sur la composante bleue et sur la
+composante rouge) pour cerner au mieux la carrosserie.
+Les seuils permettent ici de déterminer une région de
+l'image. On a "masqué" les pixels n'appartenant pas à la
+voiture. D'une manière générale, en traitement
+d'image, un "masque" désigne une image qui identifie un
+sous-ensemble des pixels d'une
+image de départ.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<table cellpadding="2" cellspacing="2" width="100%">
+  <tbody>
+    <tr>
+      <td valign="top"><img src="OIM_TP2_fichiers/TP2_6.jpg" alt="" style="width: 478px; height: 370px;"> <br>
+      </td>
+      <td valign="middle">I.2.5 A l'aide de ces informations, 
+intervertissez les valeurs des composantes verte et bleue pour 
+transformer la couleur de la voiture.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br><br>
+
+<h2>II. Conversion d'image</h2>
+
+<h3>II.1 Image en niveaux de gris et image binaire</h3>
+
+II.1.1 Convertir l'image de départ en niveaux de gris et afficher le 
+résultat obtenu, en utilisant la palette graphique suivante (composée de
+ 256 niveaux de gris) :<br>
+<font face="Helvetica, Arial, sans-serif">colormap(gray(256))</font>.<br><br>
+
+II.1.2 Binariser l'image en niveaux de gris avec le seuil par défaut (128). Afficher les résultats obtenus.<br>
+
+<h3>II.2 Histogramme</h3>
+
+II.2.1 Calculer l'histogramme de l'image en niveaux de gris. Affier le résultat à l'aide de la commande suivante : <font face="Helvetica, Arial, sans-serif">bar</font>.<br><br>
+
+II.2.2 A l'aide de l'histogramme, est-il possible de binariser l'image 
+en niveaux de gris de manière plus intelligente (afin que l'image 
+binaire soit plus lisible) ?<br><br>
+
+
+
+</body></html>
