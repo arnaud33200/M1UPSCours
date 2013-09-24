@@ -116,3 +116,25 @@ for j=1:600
 	end
 end
 image(rimgfbr);
+
+
+###########################################################
+II  #  Conversion d'image
+###########################################################
+
+
+for j=1:600
+	for i=1:400
+		img_grey(i,j) = uint8(0.2126*img(i,j,1) + 0.7152*img(i,j,2) + 0.0722*img(i,j,3));
+	end
+end
+
+for x=1:255
+	hist(x) = 0;
+end
+
+for j=1:600
+	for i=1:400
+		hist(img_grey(i,j))++;
+	end
+end
