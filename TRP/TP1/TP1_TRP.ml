@@ -1,13 +1,9 @@
-(Printf.printf " ");;
-(Printf.printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");;
-(Printf.printf " ~~~~~~~~~ IMPORT GRAPHES ");;
-(Printf.printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");;
-(Printf.printf " ");;
+(Printf.printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");;
+(Printf.printf " ~~~~~~~~~ IMPORT GRAPHES \n");;
+(Printf.printf "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");;
 #use "graphes.ml";;
 
-(Printf.printf " ");;
-(Printf.printf "######### EXERCICE I ######## ");;
-(Printf.printf " ");;
+(Printf.printf "######### EXERCICE I ######## \n\n");;
 
 let rec deepSearch p =
 match p with 
@@ -34,9 +30,7 @@ else (deepSearch ((etatsSuivants1 x)@r));;
 (* (deepSearch ["A"]);;    (* Exception: Failure "pas de solution". *) *)
 
 
-(Printf.printf " ");;
-(Printf.printf "######### EXERCICE II ########");;
-(Printf.printf " ");;
+(Printf.printf "######### EXERCICE II ########\n");;
 
 let addUnique e l =
 if (List.mem e l) then e::l else l;;
@@ -57,9 +51,7 @@ else (if (not (List.mem x v)) then (deepSearchV2 ((etatsSuivants2 x)@p) (x::v))
 (deepSearchV2 ["A"] []);;
 
 
-(Printf.printf " ");;
-(Printf.printf "########### EXERCICE III ############");;
-(Printf.printf " ");;
+(Printf.printf "########### EXERCICE III ############\n");;
 
 let rec insertLast e l = (
 			  match l with
@@ -79,12 +71,10 @@ then (insertLast x (deepSearchV3 (((etatsSuivants2 x)@r)::rc) (insertLast x v)))
 	 else (deepSearchV3 (r::rc) v)) )
 );;
 
-(deepSearchV3 [["A"]] []);;
+(Printf.printf (deepSearchV3 [["A"]] []));;
 
 
-(Printf.printf " ");;
-(Printf.printf "########### EXERCICE IV ############");;
-(Printf.printf " ");;
+(Printf.printf "########### EXERCICE IV ############\n");;
 
 let rec getOperation info next = (
 			 match info with 
