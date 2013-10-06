@@ -71,15 +71,24 @@ then (insertLast x (deepSearchV3 (((etatsSuivants2 x)@r)::rc) (insertLast x v)))
 	 else (deepSearchV3 (r::rc) v)) )
 );;
 
-(Printf.printf (deepSearchV3 [["A"]] []));;
-
+(deepSearchV3 [["C"]] []);;
 
 (Printf.printf "########### EXERCICE IV ############\n");;
 
-let rec getOperation info next = (
+let rec getNextInfo info next = (
 			 match info with 
 			       [] -> failwith "informations vide"
-			       | (o,n,c)::r -> if n = next then o
-else (getOperation r next)
+			       | (o,n,c)::r -> if n = next then (o,n,c)
+			   						else (getNextInfo r next)
 );;
+
+let rec coutPacouru chemin = (
+	match chemin with
+	| [] -> 0
+	| a::b::r -> let (o,n,c)=(getNextInfo (opPoss1 a) b) in c + (coutPacouru (b::r))
+	| a::r -> 0
+);;
+
+(getNextInfo (opPoss1 "A") "B");;
+(coutPacouru ["A";"B";"E";"I"]);;
 
