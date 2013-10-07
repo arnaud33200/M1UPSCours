@@ -60,18 +60,22 @@ let rec insertLast e l = (
 );;
 
 let rec deepSearchV3 lc v = ( 
-match lc with 
+	match lc with 
        [] -> failwith "aucune solution"
-| c::rc -> ( 
-	    match c with
-		  [] -> [];
-		  | x::r -> if (estBut2 x) then [x]
-else (if (not (List.mem x v)) 
-then (insertLast x (deepSearchV3 (((etatsSuivants2 x)@r)::rc) (insertLast x v)))
-	 else (deepSearchV3 (r::rc) v)) )
+| 		c::rc -> ( 
+	    	match c with
+		  		[] -> [];
+		  		| x::r -> if (estBut2 x) then [x]
+					else (
+						if (not (List.mem x v)) 
+						then (insertLast x (deepSearchV3 (((etatsSuivants2 x)@r)::rc) (insertLast x v)))
+	 					else (deepSearchV3 (r::rc) v)
+	 				) 
+				)
 );;
 
 (deepSearchV3 [["C"]] []);;
+(deepSearchV3 [["B"];["C"]] []);;
 
 (Printf.printf "########### EXERCICE IV ############\n");;
 
