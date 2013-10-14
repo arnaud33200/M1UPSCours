@@ -16,8 +16,8 @@ int main(int argc, char const *argv[])
 	key_t key = ftok("/deb/null",1);
 
 // créer une m
-	int semidcpt = shmget( IPC_PRIVATE, sizeof(int), IPC_CREAT | 0666 );
-	int semidshare = shmget( IPC_PRIVATE, sizeof(int), IPC_CREAT | 0666 );
+	int semidcpt = shmget( key, sizeof(int), IPC_CREAT | 0666 );
+	int semidshare = shmget( key, sizeof(int), IPC_CREAT | 0666 );
 
 	printf("SEMIDcpt = %d\n", semidcpt);
 	printf("SEMIShare = %d\n", semidshare);
