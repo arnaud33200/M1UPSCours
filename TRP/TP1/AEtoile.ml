@@ -12,23 +12,23 @@ let rec insertTriCout e l =
 			)		
 );;
 
-let estimChemin etatfils estimPere = (
-
+let estimChemin etatFils coutsFils valParcours = (
+	((hEtat1 etatFils) + coutsFils + valParcours)
 );;
 
-let rec ajouterFils fils file  estimPere =
+let rec ajouterFils fils file valParcours =
 (
 	match fils with
 	| [] -> file
-	| (o,a,c)::r -> (insertTriCout (a,c+(hEtat1 a)) (ajouterFils r file))
+	| (o,a,c)::r -> (insertTriCout (a,(estimChemin a c valParcours)) (ajouterFils r file valParcours))
 );;
 
 let rec profondeurA attent =
 (
 	match attent with
 	| [] -> failwith "etat non trouve"
-	| (e,v)::r -> if (estBut1 e) then (e,v)::[]
-		else (e,v)::(profondeurA (ajouterFils (opPoss1 e) r))
+	| (etat,valeur)::r -> if (estBut1 etat) then (etat,valeur)::[]
+		else (etat,valeur)::(profondeurA (ajouterFils (opPoss1 etat) r (valeur - (hEtat1 etat))))
 );;
 
 let test = [("A",1);("B",2);("C",4);("D",7)];;
