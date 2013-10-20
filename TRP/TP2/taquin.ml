@@ -49,8 +49,8 @@ let rec getElementMatrice x y matrice = (
 let rec switchPosition originPos destPos matrice = (
 	let (x0,y0) = originPos and (x1,x2) = destPos in (
 		match matrice with
-		| [] -> 0
-		| line::otherLine -> expr2
+		| [] -> []
+		| line::otherLine -> if x0 != 
 	)
 );;
 
