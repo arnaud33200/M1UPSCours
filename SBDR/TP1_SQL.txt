@@ -1,0 +1,63 @@
+alter table equipe disable constraint key_equipe cascade;
+
+CREATE VIEW CHERCHEUR_2400 AS 
+SELECT CodeCh, NomCh, Salaire 
+FROM CHERCHEUR WHERE Salaire > 2400;
+http://ntelline.cict.fr:5560/isqlplus/
+ 
+########## CREATION ET MANIPULATION DE VUES ##############
+###########################################################
+
+insert into CHERCHEUR Values (15, 'Thierry', 2, 2600);
+
+select * from CHERCHEUR_2400;
+select * from CHERCHEUR;
+
+
+CREATE VIEW CHERCHEUR_EQ1 as 
+SELECT CodeCh, NomCh 
+FROM CHERCHEUR where CodeEq = 1;
+
+select * from CHERCHEUR_EQ1;
+
+insert into CHERCHEUR Values (14, 'renault', 1, 1098);
+
+update CHERCHEUR 
+set NomCh='RENAULDIN' 
+where CodeCh = 14;
+
+insert into CHERCHEUR(CodeCh, NomCh) Values (18, 'LALANDE');
+
+delete from CHERCHEUR
+where NomCh = 'LALANDE';
+
+CREATE VIEW CHERCHEUR_EQUIPE as 
+SELECT CodeCh, NomCh, NomEq, CodeResp as Resp_Eq 
+FROM CHERCHEUR C, EQUIPE E
+where C.CodeEq = E.CodeEq;
+
+select * from CHERCHEUR_EQUIPE where NomEq = 'FIRM';
+
+CREATE VIEW BUDGET_LABO as 
+SELECT NomLabo, AVG(Budget) as Budget_moyen 
+FROM LABORATOIRE L, EQUIPE E
+WHERE L.CodeLabo = E.CodeLabo
+group by NomLabo;
+
+
+ ########## restructuration de la BD ##############
+###########################################################
+
+
+1/ prendre un café ça va eter long
+2/creer une table 
+
+Create table CHERCHEUR_EQUIPES
+(CodeCh NUMBER(5), 
+CodeEq NUMBER(5));
+
+alter table CHERCHEUR_EQUIPES add PRIMARY KEY (CodeCh, CodeEq);
+alter table CHERCHEUR_EQUIPES add foreign key (CodeCh) references CHERCHEUR(CodeCh);
+alter table CHERCHEUR_EQUIPES add foreign key (CodeEq) references EQUIPE (CodeEq);
+
+update ...
