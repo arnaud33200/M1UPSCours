@@ -51,7 +51,7 @@ int main (int   argc, char *argv[])
     GMainLoop *loop;
 
     // GstElement *pipeline, *source, *demuxer, *decoder, *conv, *sink;
-    GstElement *pipeline, *source, *demuxer, *queueaudio, *queuevideo, *audiodecoder, *videodecoder, *videosink, *audiosink, *volume, *videobalance;
+    GstElement *pipeline, *videoconv, *source, *demuxer, *queueaudio, *queuevideo, *audiodecoder, *videodecoder, *videosink, *audiosink, *volume, *videobalance;
     GstBus *bus;
 
 /* Initialisation */

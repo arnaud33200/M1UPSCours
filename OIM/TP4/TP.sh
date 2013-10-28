@@ -22,7 +22,7 @@ esac
 
 case $1 in
 	"2.1")
-		gst-launch filesrc location=./2CV.jpg ! jpegdec ! imagefreeze ! videobalance saturation=0 ! autovideosink
+		gst-launch-1.0 filesrc location=./2CV.jpg ! jpegdec ! imagefreeze ! videobalance saturation=0 ! autovideosink
 		;;
 	"2.2")
 		gst-launch videotestsrc ! autovideosink
