@@ -44,8 +44,11 @@ Color trace_ray (Ray ray_)
 	Isect * i;
 	if ( intersect_scene (&ray_, i) == 0 )
 		return init_color (1.f, 1.f, 1.f);
-
-	// c = add-color with compute lighting 
+	c = add_color_color(c, compute_direct_lighting(ray_, *i));
+	if ( c.is_zero() )
+		return c;
+	if ( i->bsdf().has_reflection() )
+	Ray * ListRay;
 	// utiliser la reflexion pour généré d'aute ray
 	// utiliser la refraction
 
@@ -62,14 +65,17 @@ Color trace_ray (Ray ray_)
 * entre le rayon et la scène doit être calculée (fonction intersect_scene() du module \ref RayAPI).
 * S'il n'y a pas d'intersection, une couleur blanche (triplet RGB [1, 1, 1], élément neutre de la multiplication des couleurs) 
 * devra être retournée.
-* S'il y a une intersection, la couleur retournée sera la couleur résultante de l'éclairage direct du point d'intersection par les 
-* sources lumineuses de la scène et calculée par la fonction compute_direct_lighting() à écrire dans la suite.
+* S'il y a une intersection, la couleur retournée sera la couleur résultante de l'éclairage 
+* direct du point d'intersection par les sources lumineuses de la scène et calculée par la 
+* fonction compute_direct_lighting() à écrire dans la suite.
 *
-* Pour la deuxième étape, à partir des fonctions définies dans le module \ref RayAPI et permettant d'accéder aux informations de 
-* profondeur et d'importance sur le rayon, définir un cas d'arêt dela récursivité et renvoyer si ce cas est vérifié la couleur 
-* résultante de l'éclairage direct. Si la récursivité n'est pas terminée, en utilisant les fonctions définies dans le module \ref LightAPI,
-* calculer la couleur réfléchie. Pour cela, il  faut tester si le matériau est réflechissant et, si c'est le cas, calculer le rayon 
-* réfléchi et le coefficient de réflexion (une couleur). La couleur calculée en lançant le rayon réfléchi devra alors être multipliée par ce coefficient avant d'être ajoutée
+* Pour la deuxième étape, à partir des fonctions définies dans le module \ref RayAPI et permettant 
+* d'accéder aux informations de profondeur et d'importance sur le rayon, définir un cas d'arêt 
+* dela récursivité et renvoyer si ce cas est vérifié la couleur résultante de l'éclairage direct. 
+* Si la récursivité n'est pas terminée, en utilisant les fonctions définies dans le module \ref LightAPI,
+* calculer la couleur réfléchie. Pour cela, il  faut tester si le matériau est réflechissant et, 
+* si c'est le cas, calculer le rayon réfléchi et le coefficient de réflexion (une couleur). La couleur 
+* calculée en lançant le rayon réfléchi devra alors être multipliée par ce coefficient avant d'être ajoutée
 * à la couleur renvoyée par trace_ray().
 *
 * Pour la troisème étape et de façon très similaire à la réflexion, utiliser les fonctions définies dans le module \ref LightAPI pour calculer la couleur réfractée.
