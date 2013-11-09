@@ -61,16 +61,24 @@ let rec ajouterFils fils file valParcours cheminActuel =
 );;
 
 
+let rec everVisited e l =
+(
+	match l with
+	| [] -> false
+	| x::r -> if x = e then true
+		else (everVisited e r)
+);;
+
 (* ( Etat, coup, chemin) *)
-let rec profondeurA attent=
+let rec profondeurA attent visited =
 (
 	match attent with
 	| [] -> failwith "etat non trouve"
 	| (etat,valeur, chemin)::r -> if (estBut etat) then (chemin,valeur)
-		else (profondeurA (ajouterFils (opPoss etat) r (valeur - (hEtat etat)) chemin))
+		else if (everVisited etat visited) then (profondeurA r (etat::visited))
+		else (profondeurA (ajouterFils (opPoss etat) r (valeur - (hEtat etat)) chemin) (etat::visited))
 );;
 
-let test = [("A",1);("B",2);("C",4);("D",7)];;
-
 #trace profondeurA;;
-profondeurA [(e1,7,[])];;
+(* #trace everVisited;; *)
+profondeurA [(e2,7,[])] [];;

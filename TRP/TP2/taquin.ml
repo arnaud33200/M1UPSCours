@@ -25,6 +25,14 @@ let (e1:etat) = ([["A";"C";"D"];
 ["H";"F";"B"];
 ["G";" ";"E"]], (1,2), [Up; Left; Right] );;
 
+let (e2:etat) = ([["C";"F";"D"];
+["H";" ";"B"];
+["G";"F";"E"]], (1,1), [Up; Left; Right; Down] );;
+
+let (e3:etat) = ([["F";"H";"D"];
+["G";"C";"B"];
+[" ";"E";"A"]], (0,2), [Up; Right] );;
+
 let (b1:etat) = 
 ([["A";"B";"C"];
 ["H";" ";"D"];
@@ -173,6 +181,6 @@ let rec hw (b:etat) (e:etat) = (
 
 (* #trace getPositionMatrice;;
 (getPositionMatrice "E" [["A";"C";"D"];["H";"F";"B"];["G";" ";"E"]]);; *)
-(* 
+
 #trace hw;;
-(hw b1 e1);; *)
+(hw b1 e3);;
