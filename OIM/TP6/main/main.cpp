@@ -77,17 +77,19 @@ Color trace_ray (Ray ray_)
 /**
 * \todo : recursive raytracing
 *
-* La fonction trace_ray() renvoie une couleur obtenue par la somme de l'éclairage direct (couleur calculée par la fonction 
-* compute_direct_lighting()) et des couleurs provenant des reflets et transparences éventuels aux points d'intersection. 
-* Dans la première partie du TP, seul l'éclairage direct sera calculé. Dans la seconde partie, les reflets et transparences seront rajoutés.
+* La fonction trace_ray() renvoie une couleur obtenue par la somme de l'éclairage direct 
+* (couleur calculée par la fonction compute_direct_lighting()) et des couleurs provenant des 
+* reflets et transparences éventuels aux points d'intersection. Dans la première partie du TP, 
+* seul l'éclairage direct sera calculé. Dans la seconde partie, les reflets et transparences 
+* seront rajoutés.
 *
-* Pour la première étape, la fonction trace_ray() ne calculant que les rayons primaires, l'intersection 
-* entre le rayon et la scène doit être calculée (fonction intersect_scene() du module \ref RayAPI).
-* S'il n'y a pas d'intersection, une couleur blanche (triplet RGB [1, 1, 1], élément neutre de la multiplication des couleurs) 
-* devra être retournée.
-* S'il y a une intersection, la couleur retournée sera la couleur résultante de l'éclairage 
-* direct du point d'intersection par les sources lumineuses de la scène et calculée par la 
-* fonction compute_direct_lighting() à écrire dans la suite.
+* Pour la première étape, la fonction trace_ray() ne calculant que les rayons primaires, 
+* l'intersection entre le rayon et la scène doit être calculée (fonction intersect_scene() 
+* du module \ref RayAPI).S'il n'y a pas d'intersection, une couleur blanche (triplet RGB [1, 1, 1], 
+* élément neutre de la multiplication des couleurs) devra être retournée.S'il y a une intersection, 
+* la couleur retournée sera la couleur résultante de l'éclairage direct du point d'intersection par 
+* les sources lumineuses de la scène et calculée par la fonction compute_direct_lighting() à écrire 
+* dans la suite.
 *
 * Pour la deuxième étape, à partir des fonctions définies dans le module \ref RayAPI et permettant 
 * d'accéder aux informations de profondeur et d'importance sur le rayon, définir un cas d'arêt 
@@ -129,10 +131,9 @@ void compute_image ()
 
 /**
 * \todo : main rendering loop
-*
-* Le calcul d'une image de synthèse consiste à calculer une couleur pour tous les pixels d'une image en fonction 
-* d'une modélisation d'un capteur virtuel.
-* Ce capteur est ici représenté par une Camera qui permet, à partir des coordonnées (x,y) d'un pixel d'une image, 
+* Le calcul d'une image de synthèse consiste à calculer une couleur pour tous les pixels d'une 
+* image en fonction d'une modélisation d'un capteur virtuel.Ce capteur est ici représenté par une 
+* Camera qui permet, à partir des coordonnées (x,y) d'un pixel d'une image, 
 * de créer le rayon passant par ce pixel. La manière dont est créé ce rayon dépend de la Camera. 
 * La scène étant crée avec une caméra par défaut de type \b pinhole, la fonction camera_ray() 
 * devra être utilisée afin de créer le rayon primaire. 
