@@ -7,7 +7,9 @@
 #include <sys/wait.h>
 #include <sys/sem.h>
 
-#define N 100;
+#define N 10;
+#define T 2;
+
 struct sembuf * p;
 struct sembuf * v;
 
@@ -22,6 +24,9 @@ void eraseSembuf();
 void initMessages(Message * msg, int value, int n);
 void eraseMessages(Message * msg, int n);
 
+// #########################################################
+// #########################################################
+
 int main(int argc, char const *argv[])
 {
 	if( argc < 3) 
@@ -31,11 +36,12 @@ int main(int argc, char const *argv[])
 	}
 	int nbProd = atoi(argv[1]);
 	int nbCons = atoi(argv[2]);
-
-// nombre de message 
+	int nbType = T;
 	int n = N;
 	int i;
 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // ~~~~~~~~~ Variable partager ~~~~~~~~~~~
 
 // tableau message
@@ -49,52 +55,79 @@ int main(int argc, char const *argv[])
 	int * nbMessage = shmat(semidNb, NULL, 0);
 	*nbMessage = 0;
 	shmdt(nbMessage);
+// indice écriture
+	int semidIE = shmget( ftok("keyVar/ie",1), sizeof(int), IPC_CREAT | 0666 );
+	int * indice = shmat(semidIE, NULL, 0);
+	*indice = 0;
+	shmdt(indice);
+// indice lecture
+	int semidIL = shmget( ftok("keyVar/il",1), sizeof(int), IPC_CREAT | 0666 );
+	indice = shmat(semidIL, NULL, 0);
+	*indice = 0;
+	shmdt(indice);
 
-	
-// // ~~~~~~~ INIT SEMAPHORE ~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+// ~~~~~~~ INIT SEMAPHORE ~~~~~~~~~
+
+// sémaphore sur écriture boite message
 	int semidWrite = semget(ftok("keySem/keymes",1), n, IPC_CREAT | 0666);
 	for (i = 0; i < n; ++i)
-	{
 		semctl(semidWrite, i, SETVAL, 1);
-	}
 	initSembuf(n);
+// sémaphore sur des variables
 	int semidCount = semget(ftok("keySem/keymem",1), 1, IPC_CREAT | 0666);
 	semctl(semidCount, 0, SETVAL, 1);
+	int semidSIE = semget(ftok("keySem/ie",1), 1, IPC_CREAT | 0666);
+	semctl(semidSIE, 0, SETVAL, 1);
+	int semidSIL = semget(ftok("keySem/il",1), 1, IPC_CREAT | 0666);
+	semctl(semidSIL, 0, SETVAL, 1);
+// sémaphore sur producteur & consomateur
 	int semidProd = semget(ftok("keySem/keypro",1), 1, IPC_CREAT | 0666);
 	semctl(semidProd, 0, SETVAL, n);
 	int semidCons = semget(ftok("keySem/keycon",1), 1, IPC_CREAT | 0666);
 	semctl(semidCons, 0, SETVAL, 0);
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // CREATION DES PRODUCTEUR
+
 	for (i = 0; i < nbProd; ++i)
 	{
 		if( fork() == 0)
 		{
 			Message * m = shmat(semidMessage, NULL,0);
+
 			int * nb = shmat(semidNb, NULL, 0);
+			int * ie = shmat(semidIE, NULL, 0);
 			int j;
-			for (j = 0; j < n; ++j)
-			{
+			// for (j = 0; j < n; ++j)
+			// {
 				semop(semidProd, &p[0], 1);
 
-		// ~~~~ Write message
-				semop(semidWrite, &p[j], 1);
-				// printf("DEBUT\n");
-				sprintf(m[j].value,"%d:Message%d", i, j);
-				printf("PROD %d - %s\n", i, m[j].value );
-				// m[j].value = "TOTO";
-				semop(semidWrite, &v[j], 1);
+		// ~~~~ Write message && incremente indice
+				semop(semidSIE, &p[0], 1);
+				int ind = *ie;
+				semop(semidWrite, &p[ind], 1);
+				sprintf(m[ind].value,"%d:Message%d", i, ind);
+				printf("PROD %d - %s\n", i, m[ind].value );
+				*ie = ind + 1;
+				semop(semidSIE, &v[0], 1);
+				semop(semidWrite, &v[ind], 1);
 
+			// incrementation du nombre de message
 				semop(semidCount, &p[0], 1);
 				*nb = *nb + 1;
 				semop(semidCount, &v[0], 1);
 				semop(semidCons, &v[0], 1);
-			}
+			// }
 			shmdt(m);
 			shmdt(nb);
+			shmdt(ie);
 			exit(0);
 		}
 	}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CREATION DES CONSOMATEURS
 
 	for (i = 0; i < nbCons; ++i)
 	{
@@ -102,19 +135,28 @@ int main(int argc, char const *argv[])
 		{
 			Message * m = shmat(semidMessage, NULL,0);
 			int * nb = shmat(semidNb, NULL, 0);
+			int * il = shmat(semidIL, NULL, 0);
+			
 			int j;
-			for (j = 0; j < n; ++j)
-			{
+
+			// for (j = 0; j < n; ++j)
+			// {
 				semop(semidCons, &p[0], 1);
 
-				printf("CONS %d - %s\n", i, m[j].value );
+				semop(semidSIL, &p[0], 1);
+				int indice = *il;
+				printf("CONS %d - %s\n", i, m[indice].value );
+				*il = indice +1;
+				semop(semidSIL, &v[0], 1);
+
 				semop(semidCount, &p[0], 1);
 				*nb = *nb - 1;
 				semop(semidCount, &v[0], 1);
 				semop(semidProd, &v[0], 1);
-			}
+			// }
 			shmdt(m);
 			shmdt(nb);
+			shmdt(il);
 			exit(0);
 		}
 	}
@@ -133,9 +175,14 @@ int main(int argc, char const *argv[])
 
 	// shmdt(semidNb);
 	shmctl(semidNb, IPC_RMID, NULL);
+	shmctl(semidIE, IPC_RMID, NULL);
+	shmctl(semidIL, IPC_RMID, NULL);
 
 	return 0;
 }
+
+// #########################################################
+// #########################################################
 
 void initSembuf(int nb)
 {
@@ -167,10 +214,10 @@ void initMessages(Message * msg, int value, int n)
 		// printf("alloc\n");
 	}
 
-	for (i = 0; i < n; ++i)
-	{
-		printf("%s\n", msg[i].value);
-	}
+	// for (i = 0; i < n; ++i)
+	// {
+	// 	printf("%s\n", msg[i].value);
+	// }
 }
 
 void eraseMessages(Message * msg, int n)
