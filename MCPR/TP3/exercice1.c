@@ -99,8 +99,8 @@ int main(int argc, char const *argv[])
 			int * nb = shmat(semidNb, NULL, 0);
 			int * ie = shmat(semidIE, NULL, 0);
 			int j;
-			// for (j = 0; j < n; ++j)
-			// {
+			for (j = 0; j < n; ++j)
+			{
 				semop(semidProd, &p[0], 1);
 
 		// ~~~~ Write message && incremente indice
@@ -109,7 +109,7 @@ int main(int argc, char const *argv[])
 				semop(semidWrite, &p[ind], 1);
 				sprintf(m[ind].value,"%d:Message%d", i, ind);
 				printf("PROD %d - %s\n", i, m[ind].value );
-				*ie = ind + 1;
+				*ie = (ind + 1) % n;
 				semop(semidSIE, &v[0], 1);
 				semop(semidWrite, &v[ind], 1);
 
@@ -118,7 +118,7 @@ int main(int argc, char const *argv[])
 				*nb = *nb + 1;
 				semop(semidCount, &v[0], 1);
 				semop(semidCons, &v[0], 1);
-			// }
+			}
 			shmdt(m);
 			shmdt(nb);
 			shmdt(ie);
@@ -139,21 +139,23 @@ int main(int argc, char const *argv[])
 			
 			int j;
 
-			// for (j = 0; j < n; ++j)
-			// {
+			for (j = 0; j < n; ++j)
+			{
 				semop(semidCons, &p[0], 1);
 
 				semop(semidSIL, &p[0], 1);
-				int indice = *il;
-				printf("CONS %d - %s\n", i, m[indice].value );
-				*il = indice +1;
+				{
+					int indice = *il;
+					printf("	CONS %d - %s\n", i, m[indice].value );
+					*il = (indice +1) % n;
+				}
 				semop(semidSIL, &v[0], 1);
 
 				semop(semidCount, &p[0], 1);
 				*nb = *nb - 1;
 				semop(semidCount, &v[0], 1);
 				semop(semidProd, &v[0], 1);
-			// }
+			}
 			shmdt(m);
 			shmdt(nb);
 			shmdt(il);
