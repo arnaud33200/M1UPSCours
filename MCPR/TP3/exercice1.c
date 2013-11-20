@@ -8,7 +8,7 @@
 #include <sys/sem.h>
 
 #define N 10;
-#define T 2;
+#define T 5;
 
 struct sembuf * p;
 struct sembuf * v;
@@ -69,11 +69,15 @@ int main(int argc, char const *argv[])
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 // ~~~~~~~ INIT SEMAPHORE ~~~~~~~~~
 
+	initSembuf(n);
 // sémaphore sur écriture boite message
 	int semidWrite = semget(ftok("keySem/keymes",1), n, IPC_CREAT | 0666);
 	for (i = 0; i < n; ++i)
 		semctl(semidWrite, i, SETVAL, 1);
-	initSembuf(n);
+// semaphore sur demande de typedef
+	int semidType = semget(ftok("keySem/type",1), nbType, IPC_CREAT | 0666);
+	for (i = 0; i < nbType; ++i)
+		semctl(semidType, i, SETVAL, 0);
 // sémaphore sur des variables
 	int semidCount = semget(ftok("keySem/keymem",1), 1, IPC_CREAT | 0666);
 	semctl(semidCount, 0, SETVAL, 1);
@@ -98,6 +102,7 @@ int main(int argc, char const *argv[])
 
 			int * nb = shmat(semidNb, NULL, 0);
 			int * ie = shmat(semidIE, NULL, 0);
+			int mt = i%nbType;
 			int j;
 			for (j = 0; j < n; ++j)
 			{
@@ -105,17 +110,26 @@ int main(int argc, char const *argv[])
 
 		// ~~~~ Write message && incremente indice
 				semop(semidSIE, &p[0], 1);
-				int ind = *ie;
-				semop(semidWrite, &p[ind], 1);
-				sprintf(m[ind].value,"%d:Message%d", i, ind);
-				printf("PROD %d - %s\n", i, m[ind].value );
-				*ie = (ind + 1) % n;
+				{
+					int ind = *ie;
+					semop(semidWrite, &p[ind], 1);
+					{
+						sprintf(m[ind].value,"%d - Message - %d - %d", i, ind, mt);
+						printf("PROD %d - %s\n", i, m[ind].value );
+						m[ind].type = mt;
+						*ie = (ind + 1) % n;
+					}
+					semop(semidWrite, &v[ind], 1);
+				}
 				semop(semidSIE, &v[0], 1);
-				semop(semidWrite, &v[ind], 1);
 
 			// incrementation du nombre de message
 				semop(semidCount, &p[0], 1);
-				*nb = *nb + 1;
+				{
+					if( *nb == 0 )
+						semop(semidType, &v[mt], 1);
+					*nb = *nb + 1;
+				}
 				semop(semidCount, &v[0], 1);
 				semop(semidCons, &v[0], 1);
 			}
@@ -136,23 +150,27 @@ int main(int argc, char const *argv[])
 			Message * m = shmat(semidMessage, NULL,0);
 			int * nb = shmat(semidNb, NULL, 0);
 			int * il = shmat(semidIL, NULL, 0);
-			
+			int mt = i%nbType;
 			int j;
 
 			for (j = 0; j < n; ++j)
 			{
 				semop(semidCons, &p[0], 1);
-
+				semop(semidType, &p[mt], 1);
 				semop(semidSIL, &p[0], 1);
 				{
 					int indice = *il;
 					printf("	CONS %d - %s\n", i, m[indice].value );
 					*il = (indice +1) % n;
+					semop(semidType, &v[(*il+1)%nbType], 1);
+
 				}
 				semop(semidSIL, &v[0], 1);
 
 				semop(semidCount, &p[0], 1);
-				*nb = *nb - 1;
+				{
+					*nb = *nb - 1;
+				}
 				semop(semidCount, &v[0], 1);
 				semop(semidProd, &v[0], 1);
 			}
@@ -162,6 +180,8 @@ int main(int argc, char const *argv[])
 			exit(0);
 		}
 	}
+
+
 
 	for(i=0; i < nbCons+nbProd; ++i)
 		wait(0);
