@@ -132,10 +132,10 @@ void caisse()
 		semop(semidCaisse, &p[0], 1);
 		semop(semidCptAcces, &p[1], 1);
 		{
-			printf("     CAISSIER RECOIT PAYEMENT\n");
 			// PAYEMENT RECUT
 			cpts[1] = 0;
 			semop(semidCptZero, &v[1], 1);
+			printf("     CAISSIER REMET A ZERO\n");
 		}
 		semop(semidCptAcces, &v[1], 1);
 	}
@@ -146,22 +146,34 @@ void client(int numPompe, int client)
 	int * cpts = shmat(semidCptPompe, NULL, 0);
 	semop(semidPistolets, &p[numPompe], 1);
 	{
+		
+		printf("CLIENT %d PREND PISTOLET ( %d )\n", client, numPompe );
+		semop(semidCptAcces, &p[numPompe], 1);
+			if( cpts[numPompe] > 0)
+			{
+				semop(semidCptAcces, &v[numPompe], 1);
+				printf("CLIENT %d ATTEND ZERO ( %d )\n", client, numPompe );
+				semop(semidCptZero, &p[numPompe], 1);
+			}
+			else
+				semop(semidCptAcces, &v[numPompe], 1);
+
+		// CONSO ESSENCE
 		semop(semidCptAcces, &p[numPompe], 1);
 		{
-			if( cpts[numPompe] > 0)
-				semop(semidCptZero, &p[numPompe], 1);
 			cpts[numPompe] = 10000;
 		}
 		semop(semidCptAcces, &v[numPompe], 1);
-		// CONSO ESSENCE
 		// REPOSE PISTOLET
-		printf("CLIENT %d - FINI ESSENCE POMPE ( %d )\n", client, numPompe);
 	}
 	semop(semidPistolets, &v[numPompe], 1);
+	printf("CLIENT %d - REND PISTOLET ( %d )\n", client, numPompe);
 	
 	// PAYEMENT
 	if( numPompe == 1 )
+	{
 		semop(semidCaisse, &v[0], 1);
+	}
 	else
 	{
 		semop(semidCptAcces, &p[numPompe], 1);
