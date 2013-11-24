@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package meteoclic;
 
 /**
@@ -11,7 +10,29 @@ package meteoclic;
  * @author arnaud
  */
 public class Fenetre extends javax.swing.JFrame {
-     private enum State {
+
+    private void affichPluie() {
+        meteo.setText("PLUIE");
+    }
+
+    private void affichSoleil() {
+        meteo.setText("SOLEIL");
+    }
+
+    private void affichOrage() {
+        meteo.setText("ORAGE");
+    }
+
+    private void affichPouf() {
+        meteo.setText("POUF");
+    }
+
+    private void affichNuage() {
+        meteo.setText("NUAGE");
+    }
+
+    private enum State {
+
         E1, E2
     };
     private State sf;
@@ -23,21 +44,23 @@ public class Fenetre extends javax.swing.JFrame {
                 bStart.setEnabled(true);
                 bStop.setEnabled(false);
                 bPlus.setEnabled(false);
+                break;
             case E2:
                 bStart.setEnabled(false);
                 bStop.setEnabled(true);
-                bPlus.setEnabled(true);          
+                bPlus.setEnabled(true);
+                break;
         }
     }
 
     /**
      * Creates new form Fenetre
      */
-    
     public Fenetre() {
         initComponents();
         sf = State.E1;
         cpt = 0;
+        affichSoleil();
         activation();
     }
 
@@ -53,12 +76,23 @@ public class Fenetre extends javax.swing.JFrame {
         bStart = new javax.swing.JButton();
         bStop = new javax.swing.JButton();
         bPlus = new javax.swing.JButton();
+        meteo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bStart.setText("Start");
+        bStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bStartActionPerformed(evt);
+            }
+        });
 
         bStop.setText("Stop");
+        bStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bStopActionPerformed(evt);
+            }
+        });
 
         bPlus.setText("+1");
         bPlus.addActionListener(new java.awt.event.ActionListener() {
@@ -66,6 +100,8 @@ public class Fenetre extends javax.swing.JFrame {
                 bPlusActionPerformed(evt);
             }
         });
+
+        meteo.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,11 +115,17 @@ public class Fenetre extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(bPlus)
                 .addGap(33, 33, 33))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(meteo)
+                .addGap(185, 185, 185))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
+                .addGap(82, 82, 82)
+                .addComponent(meteo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bStart)
                     .addComponent(bStop)
@@ -102,6 +144,8 @@ public class Fenetre extends javax.swing.JFrame {
                 switch (cpt) {
                     case 0:
                         sf = State.E2;
+                        cpt++;
+                        affichNuage();
                         activation();
                         break;
                     case 1:
@@ -122,9 +166,35 @@ public class Fenetre extends javax.swing.JFrame {
                         sf = State.E1;
                         activation();
                         break;
-                }       
+                }
         }
     }//GEN-LAST:event_bPlusActionPerformed
+
+    private void bStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bStopActionPerformed
+        switch (sf) {
+            case E1:
+                throw new RuntimeException("Bstop - E1");
+            case E2:
+                sf = State.E1;
+                cpt = 0;
+                affichPouf();
+                activation();
+        }
+    }//GEN-LAST:event_bStopActionPerformed
+
+    private void bStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bStartActionPerformed
+        switch (sf) {
+            case E1:
+                sf = State.E2;
+                cpt = 0;
+                affichSoleil();
+                activation();
+                break;
+            case E2:
+                throw new RuntimeException("Bstart - E1");
+                
+        }
+    }//GEN-LAST:event_bStartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,5 +235,6 @@ public class Fenetre extends javax.swing.JFrame {
     private javax.swing.JButton bPlus;
     private javax.swing.JButton bStart;
     private javax.swing.JButton bStop;
+    private javax.swing.JLabel meteo;
     // End of variables declaration//GEN-END:variables
 }
