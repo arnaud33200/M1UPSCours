@@ -1,11 +1,15 @@
 import java.io.*;
 import java.lang.*;
 import java.util.*;
+import java.util.concurrent.locks.*;
 
 public class Exercice
 {
     public static void main(String[] args)
     {
+        MonitorHoar monit = new MonitorHoar();
+
+
         System.out.print("PLAY BALL !\n");
 
         int n = 10;
@@ -13,7 +17,8 @@ public class Exercice
         for (int i=0; i<n; ++i)
         {
             int t = (i%2);
-            Thread j = new Joueur(t, i);
+            System.out.print( "joueurs num créer : " + t + "\n");
+            Thread j = new Joueur(t, i, monit);
             joueurs.add(j);
             joueurs.get(i).start();
         }   
