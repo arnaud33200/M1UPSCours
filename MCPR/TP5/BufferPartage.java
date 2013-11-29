@@ -15,34 +15,33 @@ public class BufferPartage
 	public BufferPartage()
 	{
 		buffer = new ArrayList();
-
 		maxMessage = 0;
-
 
 		lock = new ReentrantLock();
 		attendPlaceLibre = lock.newCondition();
 		attendNouveauMessage = lock.newCondition();
 	}
 
-	public void ecrireMessage( String msg )
+	public void deposerMessage( String msg )
 	{
 		lock.lock();
 		{
-			if( buffer.lentgh() >= maxMessage )
+			if( buffer.size() >= maxMessage )
 				attendPlaceLibre.await();
 			buffer.add(msg);
-			attendNouveauMessage.signal();
+			attendNouveauMessage.signal();	
 		}
 		lock.unlock();
 	}
 
 	public String retirerMessage()
 	{
+		String ret;
 		lock.lock();
 		{
-			if( buffer.lentgh() == 0 )
+			if( buffer.size() == 0 )
 				attendNouveauMessage.await();
-			buffer.add(msg);
+			ret = buffer.remove(0);
 			attendPlaceLibre.signal();
 		}
 		lock.unlock();
