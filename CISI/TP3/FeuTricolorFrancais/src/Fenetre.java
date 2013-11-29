@@ -1,3 +1,6 @@
+
+import java.awt.Color;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,14 +12,147 @@
  * @author arnaud
  */
 public class Fenetre extends javax.swing.JFrame {
+
+    private void LightRed() {
+        lblRouge.setForeground(Color.RED);
+        lblVert.setForeground(Color.GRAY);
+        lblOrange.setForeground(Color.GRAY);
+    }
+
+    private void activation() {
+        switch( state ) {
+            case INITIAL:
+                bStart.setEnabled(true);
+                bStop.setEnabled(false);
+                bPanne.setEnabled(false);
+                timerNR.stop();
+                timerNV.stop();
+                timerNO.stop();
+                timerPO.stop();
+                timerPE.stop();
+                break;   
+            case NORMALRED:
+                bStart.setEnabled(false);
+                bStop.setEnabled(true);
+                bPanne.setEnabled(true);
+                timerNR.restart();
+                timerNV.stop();
+                timerNO.stop();
+                timerPO.stop();
+                timerPE.stop();
+                break;
+            case NORMALGREEN:
+                bStart.setEnabled(false);
+                bStop.setEnabled(true);
+                bPanne.setEnabled(true);
+                timerNR.stop();
+                timerNV.restart();
+                timerNO.stop();
+                timerPO.stop();
+                timerPE.stop();
+                break;
+            case NORMALORANGE:
+                bStart.setEnabled(false);
+                bStop.setEnabled(true);
+                bPanne.setEnabled(true);
+                timerNR.stop();
+                timerNV.stop();
+                timerNO.restart();
+                timerPO.stop();
+                timerPE.stop();
+                break;
+            case OUTORANGE:
+                bStart.setEnabled(true);
+                bStop.setEnabled(true);
+                bPanne.setEnabled(false);
+                timerNR.stop();
+                timerNV.stop();
+                timerNO.stop();
+                timerPO.restart();
+                timerPE.stop();
+                break;
+            case OUTOFF:
+                bStart.setEnabled(true);
+                bStop.setEnabled(true);
+                bPanne.setEnabled(false);
+                timerNR.stop();
+                timerNV.stop();
+                timerNO.stop();
+                timerPO.stop();
+                timerPE.restart();
+                break;
+        }
+    }
+
+    private void SwitchOffAll() {
+        lblRouge.setForeground(Color.GRAY);
+        lblVert.setForeground(Color.GRAY);
+        lblOrange.setForeground(Color.GRAY);
+    }
+
+    private void LightOrange() {
+        lblRouge.setForeground(Color.GRAY);
+        lblVert.setForeground(Color.GRAY);
+        lblOrange.setForeground(Color.ORANGE);
+    }
+
+    private void LightGreen() {
+        lblRouge.setForeground(Color.GRAY);
+        lblVert.setForeground(Color.GREEN);
+        lblOrange.setForeground(Color.GRAY);
+    }
     private enum State { INITIAL, NORMALRED, NORMALGREEN, NORMALORANGE, OUTORANGE, OUTOFF };
     private State state;
+    private javax.swing.Timer timerNR;
+    private javax.swing.Timer timerNV;
+    private javax.swing.Timer timerNO;
+    private javax.swing.Timer timerPO;
+    private javax.swing.Timer timerPE;
 
     /**
      * Creates new form Fenetre
      */
     public Fenetre() {
         initComponents();
+
+        timerNR = new javax.swing.Timer(5000, new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        timerNRActionPerformed(evt);
+                    }
+                }
+                );
+
+        timerNV = new javax.swing.Timer(5000, new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        timerNVActionPerformed(evt);
+                    }
+                }
+                );
+
+        timerNO = new javax.swing.Timer(2000, new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        timerNOActionPerformed(evt);
+                    }
+                }
+                );
+
+        timerPO = new javax.swing.Timer(1000, new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        timerPOActionPerformed(evt);
+                    }
+                }
+                );
+
+        timerPE = new javax.swing.Timer(500, new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        timerPEActionPerformed(evt);
+                    }
+                }
+                );
+
+        state = State.INITIAL;
+        activation();
+        SwitchOffAll();
     }
 
     /**
@@ -111,6 +247,107 @@ public class Fenetre extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void timerNRActionPerformed(java.awt.event.ActionEvent evt) {
+        switch( state ) {
+            case INITIAL:
+                throw new RuntimeException("timerNR - INITIAL");
+            case NORMALRED:
+                state = State.NORMALGREEN;
+                activation();
+                LightGreen();
+                break; 
+            case NORMALGREEN:
+                throw new RuntimeException("timerNR - NORMALGREEN");
+            case NORMALORANGE:
+                throw new RuntimeException("timerNR - NORMALORANGE");
+            case OUTORANGE:
+                throw new RuntimeException("timerNR - OUTORANGE");
+            case OUTOFF:
+                throw new RuntimeException("timerNR - OUTOFF");
+        }
+    }
+
+    private void timerNVActionPerformed(java.awt.event.ActionEvent evt) {
+        switch( state ) {
+            case INITIAL:
+                throw new RuntimeException("timerNV - INITIAL");
+            case NORMALRED:
+                throw new RuntimeException("timerNV - NORMALRED");
+            case NORMALGREEN:
+                state = State.NORMALORANGE;
+                activation();
+                LightOrange();
+                break;
+            case NORMALORANGE:
+                throw new RuntimeException("timerNV - NORMALORANGE");
+            case OUTORANGE:
+                throw new RuntimeException("timerNV - OUTORANGE");
+            case OUTOFF:
+                throw new RuntimeException("timerNV - OUTOFF");
+        }
+    }
+
+    private void timerNOActionPerformed(java.awt.event.ActionEvent evt) {
+        switch( state ) {
+            case INITIAL:
+                throw new RuntimeException("timerNO - INITIAL");
+            case NORMALRED:
+                throw new RuntimeException("timerNO - NORMALRED");
+            case NORMALGREEN:
+                throw new RuntimeException("timerNO - NORMALGREEN");
+            case NORMALORANGE:
+                state = State.NORMALRED;
+                activation();
+                LightRed();
+                break;
+            case OUTORANGE:
+                throw new RuntimeException("timerNO - OUTORANGE");
+            case OUTOFF:
+                throw new RuntimeException("timerNO - OUTOFF");
+        }
+    }
+
+    private void timerPOActionPerformed(java.awt.event.ActionEvent evt) {
+        switch( state ) {
+            case INITIAL:
+                throw new RuntimeException("timerPo - INITIAL");
+            case NORMALRED:
+                throw new RuntimeException("timerPo - NORMALRED");
+            case NORMALGREEN:
+                throw new RuntimeException("timerPo - NORMALGREEN");
+            case NORMALORANGE:
+                throw new RuntimeException("timerPo - NORMALORANGE");
+            case OUTORANGE:
+                state = State.OUTOFF;
+                activation();
+                SwitchOffAll();
+                break;
+            case OUTOFF:
+                throw new RuntimeException("timerPo - OUTOFF");
+        }
+    }
+
+    private void timerPEActionPerformed(java.awt.event.ActionEvent evt) {
+        switch( state ) {
+            case INITIAL:
+                throw new RuntimeException("timerPE - INITIAL");
+            case NORMALRED:
+                throw new RuntimeException("timerPE - NORMALRED");
+            case NORMALGREEN:
+                throw new RuntimeException("timerPE - NORMALGREEN");
+            case NORMALORANGE:
+                throw new RuntimeException("timerPE - NORMALORANGE");
+            case OUTORANGE:
+                throw new RuntimeException("timerPE - OUTORANGE");
+            case OUTOFF:
+                state = State.OUTORANGE;
+                activation();
+                LightOrange();
+                break;
+        }
+    }
+
+
     private void bStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bStartActionPerformed
         switch( state ) {
             case INITIAL:
@@ -169,7 +406,7 @@ public class Fenetre extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bStopActionPerformed
 
-    private void bPanneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPanneActionPerformed
+    private void bPanneActionPerformed(java.awt.event.ActionEvent evt) {                                       
         switch( state ) {
             case INITIAL:
                 throw new RuntimeException("bPanne - INITIAL");
@@ -195,38 +432,7 @@ public class Fenetre extends javax.swing.JFrame {
         }
     }                                      
 
-    private void bStopActionPerformed(java.awt.event.ActionEvent evt) {                                      
-        switch( state ) {
-            case INITIAL:
-                throw new RuntimeException("bStop - INITIAL");
-            case NORMALRED:
-                state = State.INITIAL;
-                activation();
-                SwitchOffAll();
-                break;  
-            case NORMALGREEN:
-                state = State.INITIAL;
-                activation();
-                SwitchOffAll();
-                break;  
-            case NORMALORANGE:
-                state = State.INITIAL;
-                activation();
-                SwitchOffAll();
-                break;  
-            case OUTORANGE:
-                state = State.INITIAL;
-                activation();
-                SwitchOffAll();
-                break;  
-            case OUTOFF:
-                state = State.INITIAL;
-                activation();
-                SwitchOffAll();
-                break;  
-        }
-    }//GEN-LAST:event_bPanneActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
