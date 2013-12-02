@@ -11,5 +11,17 @@ class Main
 		BufferPartage buf = new BufferPartage();
 		int nbProd = Integer.parseInt(args[0]);
 		int nbCons = Integer.parseInt(args[1]);
+
+		for (int i=0; i<nbProd; ++i)
+		{
+			Producteur p = new Producteur(i, buf);
+			p.start();
+		}
+
+		for (int i=0; i<nbCons; ++i)
+		{
+			Consomateur c = new Consomateur(i, buf);
+			c.start();
+		}
 	}	
 }
