@@ -13,20 +13,24 @@ import java.awt.Color;
  */
 public class Fenetre extends javax.swing.JFrame {
 
-    private void lightRed() {
+    private void LightRed() {
         trafficLigtht.LightRed();
     }
     
-    private void switchOffAll() {
+    private void SwitchOffAll() {
         trafficLigtht.SwitchOffAll();
     }
 
-    private void lightOrange() {
+    private void LightOrange() {
         trafficLigtht.LightOrange();
     }
 
-    private void lightGreen() {
+    private void LightGreen() {
         trafficLigtht.LightGreen();
+    }
+    
+    private void LightRedOrange() {
+        trafficLigtht.LightRedOrange();
     }
 
     private void activation() {
@@ -36,6 +40,7 @@ public class Fenetre extends javax.swing.JFrame {
                 bStop.setEnabled(false);
                 bPanne.setEnabled(false);
                 timerNR.stop();
+                timerNRO.stop();
                 timerNV.stop();
                 timerNO.stop();
                 timerPO.stop();
@@ -46,6 +51,18 @@ public class Fenetre extends javax.swing.JFrame {
                 bStop.setEnabled(true);
                 bPanne.setEnabled(true);
                 timerNR.restart();
+                timerNRO.stop();
+                timerNV.stop();
+                timerNO.stop();
+                timerPO.stop();
+                timerPE.stop();
+                break;
+            case NORMALREDORANGE:
+                bStart.setEnabled(false);
+                bStop.setEnabled(true);
+                bPanne.setEnabled(true);
+                timerNR.stop();
+                timerNRO.restart();
                 timerNV.stop();
                 timerNO.stop();
                 timerPO.stop();
@@ -56,6 +73,7 @@ public class Fenetre extends javax.swing.JFrame {
                 bStop.setEnabled(true);
                 bPanne.setEnabled(true);
                 timerNR.stop();
+                timerNRO.stop();
                 timerNV.restart();
                 timerNO.stop();
                 timerPO.stop();
@@ -66,6 +84,7 @@ public class Fenetre extends javax.swing.JFrame {
                 bStop.setEnabled(true);
                 bPanne.setEnabled(true);
                 timerNR.stop();
+                timerNRO.stop();
                 timerNV.stop();
                 timerNO.restart();
                 timerPO.stop();
@@ -76,6 +95,7 @@ public class Fenetre extends javax.swing.JFrame {
                 bStop.setEnabled(true);
                 bPanne.setEnabled(false);
                 timerNR.stop();
+                timerNRO.stop();
                 timerNV.stop();
                 timerNO.stop();
                 timerPO.restart();
@@ -86,6 +106,7 @@ public class Fenetre extends javax.swing.JFrame {
                 bStop.setEnabled(true);
                 bPanne.setEnabled(false);
                 timerNR.stop();
+                timerNRO.stop();
                 timerNV.stop();
                 timerNO.stop();
                 timerPO.stop();
@@ -94,9 +115,10 @@ public class Fenetre extends javax.swing.JFrame {
         }
     }
 
-    private enum State { INITIAL, NORMALRED, NORMALGREEN, NORMALORANGE, OUTORANGE, OUTOFF };
+    private enum State { INITIAL, NORMALRED, NORMALREDORANGE, NORMALGREEN, NORMALORANGE, OUTORANGE, OUTOFF };
     private State state;
     private javax.swing.Timer timerNR;
+    private javax.swing.Timer timerNRO;
     private javax.swing.Timer timerNV;
     private javax.swing.Timer timerNO;
     private javax.swing.Timer timerPO;
@@ -111,6 +133,13 @@ public class Fenetre extends javax.swing.JFrame {
         timerNR = new javax.swing.Timer(5000, new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                         timerNRActionPerformed(evt);
+                    }
+                }
+                );
+        
+        timerNRO = new javax.swing.Timer(2000, new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        timerNROActionPerformed(evt);
                     }
                 }
                 );
@@ -145,7 +174,7 @@ public class Fenetre extends javax.swing.JFrame {
 
         state = State.INITIAL;
         activation();
-        switchOffAll();
+        SwitchOffAll();
     }
 
     /**
@@ -228,10 +257,12 @@ public class Fenetre extends javax.swing.JFrame {
             case INITIAL:
                 throw new RuntimeException("timerNR - INITIAL");
             case NORMALRED:
-                state = State.NORMALGREEN;
+                state = State.NORMALREDORANGE;
                 activation();
-                lightGreen();
-                break; 
+                LightRedOrange();
+                break;
+            case NORMALREDORANGE:
+                throw new RuntimeException("timerNR - NORMALREDORANGE");
             case NORMALGREEN:
                 throw new RuntimeException("timerNR - NORMALGREEN");
             case NORMALORANGE:
@@ -242,6 +273,28 @@ public class Fenetre extends javax.swing.JFrame {
                 throw new RuntimeException("timerNR - OUTOFF");
         }
     }
+    
+    private void timerNROActionPerformed(java.awt.event.ActionEvent evt) {
+        switch( state ) {
+            case INITIAL:
+                throw new RuntimeException("timerNRO - INITIAL");
+            case NORMALRED:
+                throw new RuntimeException("timerNRO - NORMALRED");
+            case NORMALREDORANGE:
+                state = State.NORMALGREEN;
+                activation();
+                LightGreen();
+                break;
+            case NORMALGREEN:
+                throw new RuntimeException("timerNRO - NORMALGREEN");
+            case NORMALORANGE:
+                throw new RuntimeException("timerNRO - NORMALORANGE");
+            case OUTORANGE:
+                throw new RuntimeException("timerNRO - OUTORANGE");
+            case OUTOFF:
+                throw new RuntimeException("timerNRO - OUTOFF");
+        }
+    }
 
     private void timerNVActionPerformed(java.awt.event.ActionEvent evt) {
         switch( state ) {
@@ -249,10 +302,12 @@ public class Fenetre extends javax.swing.JFrame {
                 throw new RuntimeException("timerNV - INITIAL");
             case NORMALRED:
                 throw new RuntimeException("timerNV - NORMALRED");
+            case NORMALREDORANGE:
+                throw new RuntimeException("timerNV - NORMALREDORANGE");
             case NORMALGREEN:
                 state = State.NORMALORANGE;
                 activation();
-                lightOrange();
+                LightOrange();
                 break;
             case NORMALORANGE:
                 throw new RuntimeException("timerNV - NORMALORANGE");
@@ -269,12 +324,14 @@ public class Fenetre extends javax.swing.JFrame {
                 throw new RuntimeException("timerNO - INITIAL");
             case NORMALRED:
                 throw new RuntimeException("timerNO - NORMALRED");
+            case NORMALREDORANGE:
+                throw new RuntimeException("timerNO - NORMALREDORANGE");
             case NORMALGREEN:
                 throw new RuntimeException("timerNO - NORMALGREEN");
             case NORMALORANGE:
                 state = State.NORMALRED;
                 activation();
-                lightRed();
+                LightRed();
                 break;
             case OUTORANGE:
                 throw new RuntimeException("timerNO - OUTORANGE");
@@ -289,6 +346,8 @@ public class Fenetre extends javax.swing.JFrame {
                 throw new RuntimeException("timerPo - INITIAL");
             case NORMALRED:
                 throw new RuntimeException("timerPo - NORMALRED");
+            case NORMALREDORANGE:
+                throw new RuntimeException("timerPO - NORMALREDORANGE");
             case NORMALGREEN:
                 throw new RuntimeException("timerPo - NORMALGREEN");
             case NORMALORANGE:
@@ -296,7 +355,7 @@ public class Fenetre extends javax.swing.JFrame {
             case OUTORANGE:
                 state = State.OUTOFF;
                 activation();
-                switchOffAll();
+                SwitchOffAll();
                 break;
             case OUTOFF:
                 throw new RuntimeException("timerPo - OUTOFF");
@@ -309,6 +368,8 @@ public class Fenetre extends javax.swing.JFrame {
                 throw new RuntimeException("timerPE - INITIAL");
             case NORMALRED:
                 throw new RuntimeException("timerPE - NORMALRED");
+            case NORMALREDORANGE:
+                throw new RuntimeException("timerPE - NORMALREDORANGE");
             case NORMALGREEN:
                 throw new RuntimeException("timerPE - NORMALGREEN");
             case NORMALORANGE:
@@ -318,7 +379,7 @@ public class Fenetre extends javax.swing.JFrame {
             case OUTOFF:
                 state = State.OUTORANGE;
                 activation();
-                lightOrange();
+                LightOrange();
                 break;
         }
     }
@@ -329,10 +390,12 @@ public class Fenetre extends javax.swing.JFrame {
             case INITIAL:
                 state = State.NORMALRED;
                 activation();
-                lightRed();
+                LightRed();
                 break;
             case NORMALRED:
                 throw new RuntimeException("bStart - NORMALRED");
+            case NORMALREDORANGE:
+                throw new RuntimeException("bStart - NORMALREDORANGE");
             case NORMALGREEN:
                 throw new RuntimeException("bStart - NORMALGREEN");
             case NORMALORANGE:
@@ -340,12 +403,12 @@ public class Fenetre extends javax.swing.JFrame {
             case OUTORANGE:
                 state = State.NORMALRED;
                 activation();
-                lightRed();
+                LightRed();
                 break;
             case OUTOFF:
                 state = State.NORMALRED;
                 activation();
-                lightRed();
+                LightRed();
                 break;  
         }
     }//GEN-LAST:event_bStartActionPerformed
@@ -357,27 +420,32 @@ public class Fenetre extends javax.swing.JFrame {
             case NORMALRED:
                 state = State.INITIAL;
                 activation();
-                switchOffAll();
+                SwitchOffAll();
                 break;  
+            case NORMALREDORANGE:
+                state = State.INITIAL;
+                activation();
+                SwitchOffAll();
+                break; 
             case NORMALGREEN:
                 state = State.INITIAL;
                 activation();
-                switchOffAll();
+                SwitchOffAll();
                 break;  
             case NORMALORANGE:
                 state = State.INITIAL;
                 activation();
-                switchOffAll();
+                SwitchOffAll();
                 break;  
             case OUTORANGE:
                 state = State.INITIAL;
                 activation();
-                switchOffAll();
+                SwitchOffAll();
                 break;  
             case OUTOFF:
                 state = State.INITIAL;
                 activation();
-                switchOffAll();
+                SwitchOffAll();
                 break;  
         }
     }//GEN-LAST:event_bStopActionPerformed
@@ -389,17 +457,22 @@ public class Fenetre extends javax.swing.JFrame {
             case NORMALRED:
                 state = State.OUTORANGE;
                 activation();
-                lightOrange();
+                LightOrange();
                 break;  
+            case NORMALREDORANGE:
+                state = State.OUTORANGE;
+                activation();
+                LightOrange();
+                break;
             case NORMALGREEN:
                 state = State.OUTORANGE;
                 activation();
-                lightOrange();
+                LightOrange();
                 break;  
             case NORMALORANGE:
                 state = State.OUTORANGE;
                 activation();
-                lightOrange();
+                LightOrange();
                 break;  
             case OUTORANGE:
                 throw new RuntimeException("bPanne - OUTORANGE");
