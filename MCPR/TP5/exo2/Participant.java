@@ -12,6 +12,7 @@ public class Participant extends Thread {
 
 	public void run()
 	{
-		bar.prendreRdv(num);
+		bar.demanderRDV(num);
+		bar.prendreRDV(num);
 	}
 }
