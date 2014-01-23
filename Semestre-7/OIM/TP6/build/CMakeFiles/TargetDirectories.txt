@@ -1,0 +1,2 @@
+/home/arnaud/M1UPSCours/OIM/TP6/build/CMakeFiles/main.dir
+/home/arnaud/M1UPSCours/OIM/TP6/build/CMakeFiles/raytracing.dir

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0055)file:///D:/IRIT/Doc/Cours/M1_IM/OIM/TP/TP1/OIM_TP1.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>TP1</title>
+</head>
+
+<body>
+
+<h1 style="text-align: left;">TP1 : Manipulations du média "son"</h1>
+Ce TP a pour but de manipuler des enregistrements sonores de parole et de musique.<br>
+Ce TP sera réalisé sous Matlab (éventuellement sous Octave ou Python) en
+ essayant de se rapprocher le plus possible d'une programmation C.<br> 
+En effet, Matlab sera utilisé pour nous simplifier le chargement et la visualisation des signaux sonores...<br>
+<b>Attention ! Les indices commencent à 1 en Matlab !</b>
+
+<h2>I. Signal de parole</h2>
+
+Vous allez télécharger <a href="http://www.irit.fr/%7EJulien.Pinquier/Docs/OIM/parole.wav">ici</a> un court signal de parole, constitué de quatre chiffres épelés. 
+Il s'agit d'un signal échantillonné dans de bonnes conditions, le son est clair et non bruité.<br>
+Lancer Matlab. Charger le fichier son en mémoire et l'afficher à l'aide de la séquence d'instructions suivantes :<br>
+<font face="Helvetica, Arial, sans-serif">
+[signal,fs,q,options] = wavread('parole.wav');<br>
+plot(signal);</font><br>
+<img src="OIM_TP1_fichiers/TP1_1.jpg" alt=""><br><br>
+
+I.1 Que contiennent chacune des variables obtenues (signal, fs, q et options) ?<br><br>
+
+I.2 Afficher les dimensions du signal à l'aide de la commande : <font face="Helvetica, Arial, sans-serif">taille = size(signal)</font><br>
+Vous obtenez : <font face="Helvetica, Arial, sans-serif">31743 &nbsp; &nbsp; &nbsp; 1</font><br>
+A quoi correspondent ces valeurs ?<br><br>
+
+I.3 Calculer l&#8217;intervalle de variation des échantillons du signal ? Comment ramener le vecteur (signal) à des valeurs entières ?<br><br>
+
+I.4 Calculer la durée du signal (en secondes).<br><br>
+
+I.5 Dans cet extrait, les chiffres "0 3 8 ?" sont prononcés : êtes-vous 
+capable de les distinguer ? D'après vous, quel est le dernier chiffre 
+prononcé ?<br><br>
+
+I.6 Soit l'extrait suivant : la portion de signal comprise entre les 
+échantillons 11300 et 12323. Donner la valeur des échantillons de cet 
+extrait.<br>
+Afficher cet extrait de manière continue (<font face="Helvetica, Arial, sans-serif">plot</font> par défaut) et avec des croix rouge (<font face="Helvetica, Arial, sans-serif">help plot</font> pour plus d'informations).<br><br>
+
+I.7 Localiser les indices des échantillons de début et de fin pour le 
+premier "0" prononcé. Reconstituer le signal en amplifiant cette portion
+ du signal par un facteur 5.<br><br>
+
+I.8 Ecouter le signal de départ et le nouveau signal partiellement amplifié à l'aide de la commande :<br>
+<font face="Helvetica, Arial, sans-serif">sound(signal,fs)</font><br>
+La différence est-elle audible ?<br><br>
+
+I.9 Un artéfact (bip) est présent au début de l'enregistrement. 
+Supprimer le, puis écouter le résultat obtenu afin de valider votre 
+traitement.<br><br>
+
+
+<h2>II. Signal de musique</h2>
+
+Télécharger <a href="http://www.irit.fr/%7EJulien.Pinquier/Docs/OIM/musique.wav">ici</a> un court signal de musique.<br><br>
+
+II.1 Quelle est la fréquence d'échantillonnage et le nombre de bits de quantification de cet extrait sonore ?<br><br>
+
+II.2 Afficher le signal et zoomer : que constatez-vous ?<br><br>
+
+II.3 Calculer la fréquence (à l'aide de la période) de la note présente. De quelle note s'agit-il ?<br><br>
+
+II.4 Calculer le module de la Transformée de Fourrier Rapide (FFT) à l'aide la commande suivante :<br>
+<font face="Helvetica, Arial, sans-serif">abs(fft(signal))</font><br> 
+Afficher le résultat et vérifier la fréquence de la note en ramenant la valeur d'abscisse en Hertz.<br><br>
+
+
+
+</body></html>
