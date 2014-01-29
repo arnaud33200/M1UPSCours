@@ -24,8 +24,14 @@ int main(int argc, char *argv[])
     Agenda a2;
     a2.ajoutEntree("a", 1);
     a2.ajoutEntree("b", 2);
-    Agenda m = a1 + a2;
-    cout << m << endl;
-    system("PAUSE");
+
+    if( a1 == a2 )
+        cout << "YEAH";
+    else
+        cout << "Shit" << endl;
+
+    // Agenda m = a1 + a2;
+    // cout << m << endl;
+    // system("PAUSE");
     return 0;
 }

@@ -84,7 +84,7 @@ void operator+=(const Agenda & a, const Entree & e)
 
 bool operator==(const Agenda & a1, const Agenda & a2)
 {
-	
+	return ( (*a1.entries) == (*a2.entries) );
 }
 
 bool operator/(const Agenda & a, const string & nom)

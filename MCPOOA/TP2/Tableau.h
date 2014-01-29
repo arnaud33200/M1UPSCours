@@ -27,7 +27,7 @@ class Tableau
              
              Tableau operator+(const Tableau & t);
              friend ostream & operator<<( ostream & out, Tableau & t);
-             friend bool operator==(const Tableau & t1, const Tableau & t2);
+             friend bool operator==(Tableau & t1, Tableau & t2);
           
 };
 

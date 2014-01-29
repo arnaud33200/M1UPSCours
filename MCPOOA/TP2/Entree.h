@@ -14,6 +14,8 @@ class Entree
       public :
              Entree( string n, int t);
              friend ostream & operator<<( ostream & out, Entree & e );
+             friend bool operator==( Entree & e1, Entree & e2);
+             friend bool operator!=( Entree & e1, Entree & e2);
 };
 
 #endif 
