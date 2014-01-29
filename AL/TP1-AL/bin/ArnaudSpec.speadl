@@ -1,0 +1,9 @@
+import interfaces.InterfaceTypeArnaud1;
+import interfaces.InterfaceTypeArnaud2;
+
+namespace ArnaudSpace {
+	component Compopo {
+		provides fourniture1 : InterfaceTypeArnaud1
+		provides fourniture2 : InterfaceTypeArnaud2
+	}
+}

@@ -1,0 +1,10 @@
+
+namespace familySpace {
+	component FatherType {
+		provides bricole : CoupsMarteaux
+	}
+	
+	component MotherType {
+		provides faitplaiz : FabriqueGateaux
+	}
+}
