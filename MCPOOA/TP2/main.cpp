@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
     a1.ajoutEntree("Jose", 444);
     a1.ajoutEntree("Joje", 135);
     a1.ajoutEntree("Carlo", 633);
+    a1.ajoutEntree("Casandra", 633);
+    a1.ajoutEntree("Chucho", 633);
     a1.ajoutEntree("Mark", 157);
     cout << a1 << endl;
     a1.supprEntree("Jose");
@@ -25,10 +27,7 @@ int main(int argc, char *argv[])
     a2.ajoutEntree("a", 1);
     a2.ajoutEntree("b", 2);
 
-    if( a1 == a2 )
-        cout << "YEAH";
-    else
-        cout << "Shit" << endl;
+    a1('C');
 
     // Agenda m = a1 + a2;
     // cout << m << endl;

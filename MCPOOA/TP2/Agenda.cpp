@@ -92,8 +92,8 @@ bool operator/(const Agenda & a, const string & nom)
 	
 }
 
-void Agenda::operator()(const string & n)
+void Agenda::operator()(const char & n)
 {
-	
+	(*entries)(n);
 }
 

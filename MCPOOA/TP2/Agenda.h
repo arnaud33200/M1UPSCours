@@ -30,7 +30,7 @@ public:
 	friend void operator+=(const Agenda & a, const Entree & e);
 	friend bool operator==(const Agenda & a1, const Agenda & a2);
 	friend bool operator/(const Agenda & a, const string & nom);
-	void operator()(const string & n);
+	void operator()(const char & n);
 
 	/* data */
 };
