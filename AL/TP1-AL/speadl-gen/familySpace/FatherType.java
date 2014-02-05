@@ -1,9 +1,17 @@
 package familySpace;
 
+import interfaces.CoupsMarteaux;
+import interfaces.FabriqueGateaux;
+
 @SuppressWarnings("all")
 public abstract class FatherType {
   @SuppressWarnings("all")
   public interface Requires {
+    /**
+     * This can be called by the implementation to access this required port.
+     * 
+     */
+    public FabriqueGateaux cassecroute();
   }
   
   
@@ -165,13 +173,5 @@ public abstract class FatherType {
     }
     return comp;
     
-  }
-  
-  /**
-   * Use to instantiate a component from this implementation.
-   * 
-   */
-  public FatherType.Component newComponent() {
-    return this._newComponent(new FatherType.Requires() {}, true);
   }
 }
