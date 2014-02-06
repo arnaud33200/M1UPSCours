@@ -1,3 +1,4 @@
+import familySpace.Family;
 import ArnaudSpace.Compopo;
 
 public class Main {
@@ -14,7 +15,9 @@ public class Main {
 
 // EXO 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		
-	
+		Family.Component huxtable = (new ImplFamily()).newComponent();
+		System.out.println(huxtable.service().taperCloue(3));
+		System.out.println(huxtable.service().taperCloue(0));
 	}
 
 }
