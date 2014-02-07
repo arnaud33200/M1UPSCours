@@ -19,9 +19,9 @@ public:
 	Document(string t, string a, string r);
 	Document(const Document & d);
 	~Document();
-
-	virtual friend ostream & operator<<(ostream & out, const Document & a); 
-
+	virtual void afficher();
+	Document * clone();
+	friend ostream & operator<<(ostream & out, const Document & a); 
 };
 
 #endif	// DOCUMENT_H

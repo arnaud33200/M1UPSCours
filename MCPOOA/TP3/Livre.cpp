@@ -6,7 +6,9 @@ Document(t,a,r), editeur(e), date(d)
 
 Livre::Livre(const Livre & l) : 
 Document(l), editeur(l.editeur), date(l.date)
-{ }
+{
+	cout << "Livre :: Constructor Copy" << endl;
+}
 
 Livre::Livre(const Document & doc, string e, string d) : 
 Document(doc), editeur(e), date(d)
@@ -17,6 +19,21 @@ Document(doc), editeur(e), date(d)
 Livre::~Livre()
 { }
 
+void Livre::afficher()
+{
+	Document::afficher();
+	cout << "edit : " << editeur << " (" << date << ") ";
+}
+
+Document * Livre::clone()
+{
+	return new Livre(*this);
+}
+
+// Livre * Livre::clone()
+// {
+// 	return new Livre(*this);
+// }
 
 ostream & operator<<(ostream & out, const Livre & l)
 {

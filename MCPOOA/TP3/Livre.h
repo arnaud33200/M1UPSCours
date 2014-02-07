@@ -14,7 +14,8 @@ public:
 	Livre(const Document & doc, string e, string d);
 	Livre(const Livre & l);
 	~Livre();
-
+	void afficher();
+	Document * clone();
 	friend ostream & operator<<(ostream & out, const Livre & l);
 
 	/* data */
