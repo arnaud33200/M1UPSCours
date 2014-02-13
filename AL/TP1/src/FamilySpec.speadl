@@ -1,5 +1,6 @@
 import interfaces.CoupsMarteaux
 import interfaces.FabriqueGateaux
+import interfaces.EmbalageGateaux
 
 namespace familySpace {
 	component FatherType {
@@ -11,11 +12,29 @@ namespace familySpace {
 		provides faitplaiz : FabriqueGateaux
 	}
 	
+	component Crypter {
+		provides encryptMsg : EmbalageGateaux
+		requires msg : FabriqueGateaux
+	}
+	
+	component Decrypter {
+		provides msg : FabriqueGateaux
+		requires encryptMsg : EmbalageGateaux
+	}
+	
 	component Family {
 		provides service : CoupsMarteaux = father.bricole
 		
 		part father : FatherType {
-			bind cassecroute to mother.faitplaiz
+			bind cassecroute to deballe.msg
+		}
+		
+		part deballe : Decrypter {
+			bind encryptMsg to emballe.encryptMsg
+		}
+		
+		part emballe : Crypter {
+			bind msg to mother.faitplaiz
 		}
 		
 		part mother : MotherType
