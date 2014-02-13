@@ -1,0 +1,12 @@
+import familySpace.*
+import interfaces.FabriqueGateaux
+
+namespace FamilyGroup {
+	
+	
+	
+	component MotherGroup {
+		provides cassecroute : FabriqueGateaux = mother1.cassecroute
+		part mother1 : M
+	}	
+}
