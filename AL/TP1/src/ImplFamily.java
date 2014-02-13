@@ -1,3 +1,4 @@
+import FamilyGroup.MotherGroup;
 import familySpace.Crypter;
 import familySpace.Decrypter;
 import familySpace.Family;
@@ -14,9 +15,9 @@ public class ImplFamily extends Family {
 	}
 
 	@Override
-	protected MotherType make_mother() {
+	protected MotherGroup make_mother() {
 		// TODO Auto-generated method stub
-		return new ImplMother();
+		return new ImplMotherGroup();
 	}
 
 	@Override

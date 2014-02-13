@@ -1,6 +1,7 @@
 import interfaces.CoupsMarteaux
 import interfaces.FabriqueGateaux
 import interfaces.EmbalageGateaux
+import FamilyGroup.*
 
 namespace familySpace {
 	component FatherType {
@@ -34,9 +35,9 @@ namespace familySpace {
 		}
 		
 		part emballe : Crypter {
-			bind msg to mother.faitplaiz
+			bind msg to mother.cassecroute
 		}
 		
-		part mother : MotherType
+		part mother : MotherGroup
 	}
 }

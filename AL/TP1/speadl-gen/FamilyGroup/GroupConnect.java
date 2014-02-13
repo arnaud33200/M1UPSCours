@@ -1,17 +1,28 @@
-package familySpace;
+package FamilyGroup;
 
-import interfaces.EmbalageGateaux;
 import interfaces.FabriqueGateaux;
 
 @SuppressWarnings("all")
-public abstract class Decrypter {
+public abstract class GroupConnect {
   @SuppressWarnings("all")
   public interface Requires {
     /**
      * This can be called by the implementation to access this required port.
      * 
      */
-    public EmbalageGateaux encryptMsg();
+    public FabriqueGateaux mother1();
+    
+    /**
+     * This can be called by the implementation to access this required port.
+     * 
+     */
+    public FabriqueGateaux mother2();
+    
+    /**
+     * This can be called by the implementation to access this required port.
+     * 
+     */
+    public FabriqueGateaux mother3();
   }
   
   
@@ -21,12 +32,12 @@ public abstract class Decrypter {
      * This can be called to access the provided port.
      * 
      */
-    public FabriqueGateaux msg();
+    public FabriqueGateaux cassecroute();
   }
   
   
   @SuppressWarnings("all")
-  public interface Component extends Decrypter.Provides {
+  public interface Component extends GroupConnect.Provides {
   }
   
   
@@ -36,10 +47,10 @@ public abstract class Decrypter {
   
   
   @SuppressWarnings("all")
-  public static class ComponentImpl implements Decrypter.Component, Decrypter.Parts {
-    private final Decrypter.Requires bridge;
+  public static class ComponentImpl implements GroupConnect.Component, GroupConnect.Parts {
+    private final GroupConnect.Requires bridge;
     
-    private final Decrypter implementation;
+    private final GroupConnect implementation;
     
     public void start() {
       this.implementation.start();
@@ -52,15 +63,15 @@ public abstract class Decrypter {
     }
     
     protected void initProvidedPorts() {
-      assert this.msg == null: "This is a bug.";
-      this.msg = this.implementation.make_msg();
-      if (this.msg == null) {
-      	throw new RuntimeException("make_msg() in familySpace.Decrypter should not return null.");
+      assert this.cassecroute == null: "This is a bug.";
+      this.cassecroute = this.implementation.make_cassecroute();
+      if (this.cassecroute == null) {
+      	throw new RuntimeException("make_cassecroute() in FamilyGroup.GroupConnect should not return null.");
       }
       
     }
     
-    public ComponentImpl(final Decrypter implem, final Decrypter.Requires b, final boolean doInits) {
+    public ComponentImpl(final GroupConnect implem, final GroupConnect.Requires b, final boolean doInits) {
       this.bridge = b;
       this.implementation = implem;
       
@@ -77,10 +88,10 @@ public abstract class Decrypter {
       
     }
     
-    private FabriqueGateaux msg;
+    private FabriqueGateaux cassecroute;
     
-    public final FabriqueGateaux msg() {
-      return this.msg;
+    public final FabriqueGateaux cassecroute() {
+      return this.cassecroute;
     }
   }
   
@@ -98,7 +109,7 @@ public abstract class Decrypter {
    */
   private boolean started = false;;
   
-  private Decrypter.ComponentImpl selfComponent;
+  private GroupConnect.ComponentImpl selfComponent;
   
   /**
    * Can be overridden by the implementation.
@@ -116,7 +127,7 @@ public abstract class Decrypter {
    * This can be called by the implementation to access the provided ports.
    * 
    */
-  protected Decrypter.Provides provides() {
+  protected GroupConnect.Provides provides() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("provides() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if provides() is needed to initialise the component.");
@@ -130,13 +141,13 @@ public abstract class Decrypter {
    * This will be called once during the construction of the component to initialize the port.
    * 
    */
-  protected abstract FabriqueGateaux make_msg();
+  protected abstract FabriqueGateaux make_cassecroute();
   
   /**
    * This can be called by the implementation to access the required ports.
    * 
    */
-  protected Decrypter.Requires requires() {
+  protected GroupConnect.Requires requires() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("requires() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if requires() is needed to initialise the component.");
@@ -149,7 +160,7 @@ public abstract class Decrypter {
    * This can be called by the implementation to access the parts and their provided ports.
    * 
    */
-  protected Decrypter.Parts parts() {
+  protected GroupConnect.Parts parts() {
     assert this.selfComponent != null: "This is a bug.";
     if (!this.init) {
     	throw new RuntimeException("parts() can't be accessed until a component has been created from this implementation, use start() instead of the constructor if parts() is needed to initialise the component.");
@@ -162,12 +173,12 @@ public abstract class Decrypter {
    * Not meant to be used to manually instantiate components (except for testing).
    * 
    */
-  public synchronized Decrypter.Component _newComponent(final Decrypter.Requires b, final boolean start) {
+  public synchronized GroupConnect.Component _newComponent(final GroupConnect.Requires b, final boolean start) {
     if (this.init) {
-    	throw new RuntimeException("This instance of Decrypter has already been used to create a component, use another one.");
+    	throw new RuntimeException("This instance of GroupConnect has already been used to create a component, use another one.");
     }
     this.init = true;
-    Decrypter.ComponentImpl comp = new Decrypter.ComponentImpl(this, b, true);
+    GroupConnect.ComponentImpl comp = new GroupConnect.ComponentImpl(this, b, true);
     if (start) {
     	comp.start();
     }
