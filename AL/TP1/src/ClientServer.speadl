@@ -1,0 +1,26 @@
+import interfaces.TypeDeServiceSuperChouette
+import interfaces.TypeDeServicePasTerrible
+
+namespace CS {
+	
+	component ClientComponentType {
+		provides unServiceSuperChouette : TypeDeServiceSuperChouette
+		requires unServiceBasiqueBofBof : TypeDeServicePasTerrible
+	}
+	
+	component ServerComponentType {
+		provides unServicePasSiMal : TypeDeServicePasTerrible
+	}
+	
+	component BigComponentType {
+		provides unServiceQuiDechire : TypeDeServiceSuperChouette = client.unServiceSuperChouette
+		
+		part  client: ClientComponentType {
+			bind unServiceBasiqueBofBof to server.unServicePasSiMal
+			}
+		part server : ServerComponentType
+//		part autreClient : ClientComponentType {
+//			bind unServiceBasiqueBofBof to server.unServicePasSiMal
+//		}
+	}
+}

@@ -1,0 +1,23 @@
+import interfaces.CoupsMarteaux
+import interfaces.FabriqueGateaux
+
+namespace familySpace {
+	component FatherType {
+		provides bricole : CoupsMarteaux
+		requires cassecroute : FabriqueGateaux
+	}
+	
+	component MotherType {
+		provides faitplaiz : FabriqueGateaux
+	}
+	
+	component Family {
+		provides service : CoupsMarteaux = father.bricole
+		
+		part father : FatherType {
+			bind cassecroute to mother.faitplaiz
+		}
+		
+		part mother : MotherType
+	}
+}
