@@ -5,14 +5,17 @@
 #include <cstdlib>
 #include <string>
 
+#include "AutoPtr.h"
+
 using namespace std;
 
 class Document
 {
 	friend class Bib;
+	friend class Livre;
 private:
 	string & titre;
-	string * resume;
+	AutoPtr<string> resume;
 	string auteur;
 
 public:

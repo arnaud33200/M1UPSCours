@@ -25,7 +25,7 @@ Article::~Article()
 
 void Article::afficher()
 {
-	Document::afficher();
+	// Document::afficher();
 	cout << "revue : " << revue << "N°" << numero << " (" << editeur << ") ";
 }
 
