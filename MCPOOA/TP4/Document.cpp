@@ -1,27 +1,33 @@
 #include "Document.h"
 
 Document::Document(string t, string a) : 
-titre(t), auteur(a)
+titre(t), auteur(a), resume(new string(t));
 {
-	resume = new string("");
+	cout << "Document[" << titre << "] :: Constructor Parameters" << endl;
 }
 
 Document::Document(string t, string a, string r) :
 titre(t), auteur(a)
 {
 	resume = new string(r);
+	cout << "Document[" << t << "] :: Constructor Parameters" << endl;
 }
 
 Document::Document(const Document & d) :
 titre(d.titre), auteur(d.auteur)
 {
 	resume = new string(*(d.resume));
-	cout << "Document :: Constructor Copy" << endl;
+	cout << "Document[" << titre << "] :: Constructor Copy" << endl;
 }
+
+// Document * Document::clone()
+// {
+// 	return new Document(*this);
+// }
 
 Document::~Document()
 {
-	delete resume;
+	// cout << "Document[" << titre << "] :: Destructor" << endl;
 }
 
 void Document::afficher()

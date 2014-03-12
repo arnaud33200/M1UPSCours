@@ -2,12 +2,14 @@
 
 Livre::Livre(string t, string a, string r, string e, string d) : 
 Document(t,a,r), editeur(e), date(d)
-{ }
+{
+	cout << "Livre[" << titre << "] :: Constructor Parameter" << endl;
+}
 
 Livre::Livre(const Livre & l) : 
 Document(l), editeur(l.editeur), date(l.date)
 {
-	cout << "Livre :: Constructor Copy" << endl;
+	cout << "Livre[" << titre << "] :: Constructor Copy" << endl;
 }
 
 Livre::Livre(const Document & doc, string e, string d) : 
@@ -17,11 +19,13 @@ Document(doc), editeur(e), date(d)
 }
 
 Livre::~Livre()
-{ }
+{
+	// cout << "Livre[" << titre << "] :: Destructor" << endl;
+}
 
 void Livre::afficher()
 {
-	Document::afficher();
+	// Document::afficher();
 	cout << "edit : " << editeur << " (" << date << ") ";
 }
 
