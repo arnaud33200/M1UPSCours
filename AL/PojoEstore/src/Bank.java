@@ -6,7 +6,7 @@ public class Bank {
 	public Bank () {
 		estore = new Account();
 		anne = new Account();
-		bob = new Account();
+		//bob = new Account();
 		
 		estore.setOwner("Estore");
 		estore.setAmount(0);

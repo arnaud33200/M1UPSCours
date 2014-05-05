@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 public class Light extends javax.swing.JPanel {
 
     private Color color = Color.BLUE;
-    private boolean on = true;
+    private boolean onn = true;
 
     /**
      * Creates new form Light
@@ -32,7 +32,7 @@ public class Light extends javax.swing.JPanel {
         //g2d.setStroke(null);
         g.setColor(Color.BLACK);
         g.drawOval(0, 0, getWidth(), getHeight());
-        if (on) {
+        if (onn) {
             
             g.setColor(color);
             g.fillOval(0, 0, getWidth(), getHeight());
@@ -83,13 +83,13 @@ public class Light extends javax.swing.JPanel {
      * @return the on
      */
     public boolean isOn() {
-        return on;
+        return onn;
     }
 
     /**
      * @param on the on to set
      */
     public void setOn(boolean on) {
-        this.on = on;
+        this.onn = on;
     }
 }
