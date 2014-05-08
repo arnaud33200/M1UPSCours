@@ -1,0 +1,11 @@
+{C'est le type par défaut des questions d'un quiz. Vous n'êtes pas obligé 
+de terminer l'intitulé par :
+|type="[]"}
++ Les lignes suivantes sont des propositions
++ justes ou
+- fausses.
+
+{ L'intitulé d'une question à choix unique se termine systématiquement par |type="()"}
+- elle contient des propositions
+- fausses
++ et une unique proposition juste.

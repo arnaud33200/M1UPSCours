@@ -1,0 +1,5 @@
+<FindBugsFilter>
+  <Match>
+    <Method returns="void" name="main" params="java.lang.String[]" />
+  </Match>
+<FindBugsFilter>

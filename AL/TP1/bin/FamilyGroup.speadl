@@ -1,0 +1,25 @@
+import familySpace.*
+import interfaces.FabriqueGateaux
+
+namespace FamilyGroup {
+	
+	component GroupConnect {
+		provides cassecroute : FabriqueGateaux
+		requires mother1 : FabriqueGateaux
+		requires mother2 : FabriqueGateaux
+		requires mother3 : FabriqueGateaux
+	}
+	
+	component MotherGroup {
+		provides cassecroute : FabriqueGateaux = connecter.cassecroute
+		part connecter : GroupConnect {
+			bind mother1 to m1.faitplaiz
+			bind mother2 to m2.faitplaiz
+			bind mother3 to m3.faitplaiz
+		}
+		
+		part m1 : MotherType
+		part m2 : MotherType
+		part m3 : MotherType
+	}	
+}
